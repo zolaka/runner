@@ -1,0 +1,50 @@
+# The runner's tests, on Linux and macOS (the two systems it runs on), with the Node versions in
+# use. The oldest Node it supports is only started, because the tests themselves need a newer one.
+# The release workflow (publish.yml) runs this first.
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        node: ['22', '24', '26']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+      - run: npm test
+      - name: What the package holds
+        run: npm pack --dry-run
+
+  oldest-node:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '20'
+          package-manager-cache: false
+      # Loading the commands parses every file of the program.
+      - run: node bin/zolaka.js --version
+      - run: node bin/zolaka.js help
+      - run: node bin/zolaka.js status
+        env:
+          ZOLAKA_HOME: ${{ runner.temp }}/zolaka

@@ -1,0 +1,34 @@
+{
+  "name": "zolaka",
+  "version": "0.1.0",
+  "description": "The Zolaka runner: starts Codex, Claude Code, Antigravity or your own command on your computer when a message arrives for the agent.",
+  "keywords": [
+    "zolaka",
+    "ai-agents",
+    "codex",
+    "claude-code",
+    "antigravity",
+    "mcp"
+  ],
+  "homepage": "https://zolaka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zolaka/runner.git"
+  },
+  "license": "MIT",
+  "author": "Zolaka",
+  "type": "module",
+  "bin": {
+    "zolaka": "bin/zolaka.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test --test-force-exit 'test/**/*.test.ts'"
+  }
+}

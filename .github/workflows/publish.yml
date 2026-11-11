@@ -1,0 +1,48 @@
+# A release published on GitHub puts its version on npm, in two steps:
+#
+#   1. This workflow tests the release, then stages it on npm (`npm stage publish`). It holds no
+#      npm token: npm trusts this workflow in this repository (trusted publishing), and attaches
+#      a provenance statement that ties the package to this commit and this run.
+#   2. Nothing is public until a maintainer of the package approves the staged version on
+#      npmjs.com, with two-factor authentication.
+#
+# npm's trusted publisher settings for the package name this file, publish.yml: renaming it
+# stops publishing.
+name: Publish
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  stage:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # the OIDC token npm exchanges for a one-time publish token
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false # never a cache in a release build
+      - name: The release is the version in package.json
+        run: |
+          version="v$(node -p "require('./package.json').version")"
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "The release is $GITHUB_REF_NAME, but package.json says $version."
+            exit 1
+          fi
+      # Staged publishing needs npm 11.15 or later; this is the version it was prepared with.
+      - run: npm install -g npm@12.2.2
+      - run: npm stage publish
