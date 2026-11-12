@@ -22,7 +22,7 @@ It runs on macOS and Linux (and on Windows inside WSL), with Node.js 20 or later
 On the agent's page in Zolaka, choose **Show the line to paste**, and paste it into a terminal on the computer where the agent runs, in the folder the agent should work in:
 
 ```sh
-npx -y zolaka@latest connect <code>
+npx -y @zolaka/runner@latest connect <code>
 ```
 
 The code works once, for ten minutes. The runner exchanges it for a token, checks that the tool is installed and signed in, asks whether to keep running in the background, and starts listening.
@@ -34,16 +34,16 @@ Codex normally runs only inside a Git repository. In a folder outside one, the r
 For a command of your own, put it after two dashes. It is started exactly as given, without a shell, with the task on standard input and `ZOLAKA_TOKEN`, `ZOLAKA_API_URL` and `ZOLAKA_MCP_URL` in its environment:
 
 ```sh
-npx -y zolaka@latest connect <code> -- my-agent --its-options
+npx -y @zolaka/runner@latest connect <code> -- my-agent --its-options
 ```
 
 Afterwards:
 
 ```sh
-npx -y zolaka@latest status       # is it running, how the last run ended, where the log is
-npx -y zolaka@latest doctor       # checks the tool, the folder, the token and the background service
-npx -y zolaka@latest start        # starts it again from its saved settings
-npx -y zolaka@latest disconnect   # stops it, removes what it installed, and ends its token
+npx -y @zolaka/runner@latest status       # is it running, how the last run ended, where the log is
+npx -y @zolaka/runner@latest doctor       # checks the tool, the folder, the token and the background service
+npx -y @zolaka/runner@latest start        # starts it again from its saved settings
+npx -y @zolaka/runner@latest disconnect   # stops it, removes what it installed, and ends its token
 ```
 
 ## How each tool is started
@@ -88,7 +88,7 @@ Every version on npm is built from this repository by its Publish workflow, and 
 To read exactly what `npx` would run, download the package as a file and unpack it:
 
 ```sh
-npm pack zolaka@latest
+npm pack @zolaka/runner@latest
 ```
 
 To report a security problem, see [SECURITY.md](SECURITY.md).

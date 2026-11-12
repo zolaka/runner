@@ -524,7 +524,7 @@ describe('the commands', () => {
     const first = await printed(['connect', CODE, '--api', url, '--no-service', '--timeout', '5', '--', 'no-such-agent-program', '--fast']);
     assert.equal(first.status, 1);
     assert.match(first.text, /! Your command was not found: no-such-agent-program\./);
-    assert.match(first.text, /Nothing is running yet\. When that is fixed, start it with: npx -y zolaka@latest start fixer -- your-command/);
+    assert.match(first.text, /Nothing is running yet\. When that is fixed, start it with: npx -y @zolaka\/runner@latest start fixer -- your-command/);
     // A name from the server cannot move the cursor or clear the screen.
     assert.ok(!first.text.includes(ESC) && !first.text.includes(String.fromCharCode(7)));
     assert.equal(zolaka.asks, 0);

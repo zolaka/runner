@@ -1,5 +1,5 @@
 {
-  "name": "zolaka",
+  "name": "@zolaka/runner",
   "version": "0.1.0",
   "description": "The Zolaka runner: starts Codex, Claude Code, Antigravity or your own command on your computer when a message arrives for the agent.",
   "keywords": [
@@ -27,6 +27,9 @@
   ],
   "engines": {
     "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "test": "node --test --test-force-exit 'test/**/*.test.ts'"

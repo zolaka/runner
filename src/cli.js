@@ -16,7 +16,7 @@ import { VERSION } from './version.js';
 /** @typedef {import('./config.js').AgentConfig} AgentConfig */
 
 const PRODUCTION_API = 'https://api.zolaka.com';
-const CMD = 'npx -y zolaka@latest';
+const CMD = 'npx -y @zolaka/runner@latest';
 
 const HELP = `The Zolaka runner ${VERSION}: starts Codex, Claude Code, Antigravity or your own command on this computer when a message arrives for the agent.
 
