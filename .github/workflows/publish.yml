@@ -46,3 +46,9 @@ jobs:
       # Staged publishing needs npm 11.15 or later; this is the version it was prepared with.
       - run: npm install -g npm@12.2.2
       - run: npm stage publish
+      # When npm cannot trade this workflow's GitHub token for an npm one (the trusted publisher
+      # settings do not match, for instance), it says why only in its debug log, and then fails
+      # with a plain 401. The log holds no token.
+      - name: Why npm refused, if it did
+        if: failure()
+        run: grep -h -E "oidc|http fetch" ~/.npm/_logs/*-debug-0.log || true
